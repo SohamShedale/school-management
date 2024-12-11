@@ -4,8 +4,7 @@ const db = require('../db');
 const calculateDistance  = require('../utils/calculateDistance');
 
 router.post('/addSchool', async (req, res) => {
-    try {
-        const { name, address, latitude, longitude } = req.body;
+    const { name, address, latitude, longitude } = req.body;
 
         if (!name || !address || !latitude || !longitude) {
           return res.status(400).json({ message: "All fields are required." });
@@ -24,15 +23,11 @@ router.post('/addSchool', async (req, res) => {
             }
           });
         res.status(201).json({ message: "School added successfully." });
-    } catch (error) {
-        return res.status(500).json({message: "Internal server error"})
-    }
     
 });
 
 router.get('/listSchools', async (req, res) => {
-    try {
-        const { latitude, longitude } = req.query;
+    const { latitude, longitude } = req.query;
 
         if (!latitude || !longitude) {
           return res
@@ -58,9 +53,6 @@ router.get('/listSchools', async (req, res) => {
           .sort((a, b) => a.distance - b.distance);
 
         res.status(200).json(sortedSchools);
-    } catch (error) {
-        return res.status(500).json({ message: "Internal server error" });
-    }
 });
 
 module.exports = router;
